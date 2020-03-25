@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: A sample template
+
+Resources:
+  Type: AWS::DynamoDB::Table
+  Name: tips-tippers
+  Properties: 
+    AttributeDefinitions: 
+      - AttributeDefinition
+    BillingMode: String
+    GlobalSecondaryIndexes: 
+      - GlobalSecondaryIndex
+    KeySchema: 
+      - KeySchema
+    LocalSecondaryIndexes: 
+      - LocalSecondaryIndex
+    PointInTimeRecoverySpecification: 
+      PointInTimeRecoverySpecification
+    ProvisionedThroughput: 
+      ProvisionedThroughput
+    SSESpecification: 
+      SSESpecification
+    StreamSpecification: 
+      StreamSpecification
+    TableName: String
+    Tags: 
+      - Tag
+    TimeToLiveSpecification: 
+      TimeToLiveSpecification
