@@ -1,11 +1,9 @@
 import express from 'express';
 import JWTAuthenticator from '../auth/JWTAuthenticator';
 
-
 const jwtAuthenticator = new JWTAuthenticator();
 
 const authenticate = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    console.log(req);
     const header = req.header('Authentication');
     if (typeof header === 'undefined') {
         return res.status(401).send('Missing authentication header');

@@ -1,11 +1,17 @@
 import { SecretsManager } from 'aws-sdk';
 import jsonwebtoken from 'jsonwebtoken';
+import config from 'config';
 import TipsUser from '../model/TipsUser';
+
+const appConfig = config.get('app') as any;
 
 export default class JWTAuthenticator {
     private _local: boolean;
     private _cachedSecret?: string;
-    public constructor(private secretsManager = new SecretsManager(), private jwt = jsonwebtoken) {
+    public constructor(
+        private secretsManager = new SecretsManager({ region: appConfig.region }),
+        private jwt = jsonwebtoken
+    ) {
         if (process.env.NODE_ENV === 'local') {
             this._local = true;
             this._cachedSecret = process.env.TIPS_JWT_SECRET

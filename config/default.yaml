@@ -1,2 +1,4 @@
 app:
   service: tips-tipper-service
+  dynamoTable: tips-tippers
+  region: us-east-2
