@@ -1,29 +1,40 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: A sample template
+Description: Table for storing Tippers
 
 Resources:
-  Type: AWS::DynamoDB::Table
-  Name: tips-tippers
-  Properties: 
-    AttributeDefinitions: 
-      - AttributeDefinition
-    BillingMode: String
-    GlobalSecondaryIndexes: 
-      - GlobalSecondaryIndex
-    KeySchema: 
-      - KeySchema
-    LocalSecondaryIndexes: 
-      - LocalSecondaryIndex
-    PointInTimeRecoverySpecification: 
-      PointInTimeRecoverySpecification
-    ProvisionedThroughput: 
-      ProvisionedThroughput
-    SSESpecification: 
-      SSESpecification
-    StreamSpecification: 
-      StreamSpecification
-    TableName: String
-    Tags: 
-      - Tag
-    TimeToLiveSpecification: 
-      TimeToLiveSpecification
+  TipsTipperServiceRole:
+    Type: AWS::IAM::Role
+    Properties: 
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+              - ec2.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Description: Role allowing tippers service to talk to Dynamo, outbound HTTP
+      Policies: 
+        - PolicyName: dynamo
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: '*'
+                Resource: !Sub arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table:tips-tippers*
+      RoleName: tips.tippers
+  TipsTippersTable:
+    Type: AWS::DynamoDB::Table
+    Properties: 
+      AttributeDefinitions: 
+        -
+          AttributeName: "phoneNumber"
+          AttributeType: "S"
+      KeySchema:
+        # TODO: Number of attributes in KeySchema does not exactly match number of attributes defined in AttributeDefinitions
+        - 
+          AttributeName: "phoneNumber"
+          KeyType: "HASH"
+      TableName: tips-tippers
+      BillingMode: PAY_PER_REQUEST
