@@ -7,7 +7,7 @@
     "run-local": "export NODE_ENV=local TIPS_JWT_SECRET=local-secret && ts-node src/index.ts",
     "run-test": "export NODE_ENV=test && node dist/index.js",
     "run-prod": "export NODE_ENV=prod && node dist/index.js",
-    "build": "echo \"TODO: configure build script\"",
+    "build": "tsc --outDir dist",
     "test": "export NODE_ENV=test && jest src --coverage"
   },
   "repository": {
