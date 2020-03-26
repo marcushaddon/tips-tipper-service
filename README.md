@@ -8,3 +8,4 @@ TODO:
 - add config
 - build auth
 - build GET, PATCH, POST, DELETE routes
+- fix (req as any).thing = stuff

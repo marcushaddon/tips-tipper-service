@@ -10,6 +10,8 @@ const app = express();
 
 app.use(authenticate);
 
+app.get('/', (req, res) => { res.send('hello') });
+
 /**
  * TODO:
  * 1. GET tippers (count, offset, sort), admin only
