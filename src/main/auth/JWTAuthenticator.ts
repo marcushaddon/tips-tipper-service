@@ -27,7 +27,6 @@ export default class JWTAuthenticator {
             decoded = this.jwt.verify(token, this._cachedSecret as string);
             user = decoded.user;
         } catch (e) {
-            console.log(e);
             if (this._local || e.name === 'TokenExpiredError' || refreshed) {
                 throw e;
             }
