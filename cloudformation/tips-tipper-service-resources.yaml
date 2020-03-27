@@ -1,40 +1,22 @@
-AWSTemplateFormatVersion: "2010-09-09"
-Description: Table for storing Tippers
-
 Resources:
-  TipsTipperServiceRole:
-    Type: AWS::IAM::Role
+  EC2Instance: 
+    Type: AWS::EC2::Instance
     Properties: 
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service:
-              - ec2.amazonaws.com
-            Action:
-              - 'sts:AssumeRole'
-      Description: Role allowing tippers service to talk to Dynamo, outbound HTTP
-      Policies: 
-        - PolicyName: dynamo
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: '*'
-                Resource: !Sub arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table:tips-tippers*
-      RoleName: tips.tippers
-  TipsTippersTable:
-    Type: AWS::DynamoDB::Table
-    Properties: 
-      AttributeDefinitions: 
-        -
-          AttributeName: "phoneNumber"
-          AttributeType: "S"
-      KeySchema:
-        # TODO: Number of attributes in KeySchema does not exactly match number of attributes defined in AttributeDefinitions
-        - 
-          AttributeName: "phoneNumber"
-          KeyType: "HASH"
-      TableName: tips-tippers
-      BillingMode: PAY_PER_REQUEST
+      InstanceType: t2.micro
+      ImageId: ami-0fc20dd1da406780b # NOTE: only good for us-east-2
+      KeyName: tips
+      SecurityGroups:
+        - !Ref SecurityGroup
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security group for tippers service
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: '80'
+        ToPort: '80'
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: '22'
+        ToPort: '22'
+        CidrIp: 0.0.0.0/0
