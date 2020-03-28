@@ -4,7 +4,7 @@ type TipsUser = {
     phoneNumber: string;
     venmo?: string;
     paypal?: string;
-    preferredMethod?: string;
+    preferredMethod?: 'paypal' | 'venmo';
 };
 
 export default TipsUser;
