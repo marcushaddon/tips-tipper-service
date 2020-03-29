@@ -27,7 +27,7 @@ const PUTuser = async (req: Request, res: Response, next: NextFunction) => {
         createdUser = await tippersRepo.putUser(pendingUser);
     } catch (e) {
         logger.error('Unable to PUT user', e);
-        return res.status(400).send(e);
+        return res.status(400).send({ message: e.message });
     }
 
     logger.info('PUT user', createdUser);

@@ -5,6 +5,7 @@ import logger from './main/logging/logger';
 import authenticate from './main/auth/authenticate';
 import POSTsession from './main/routes/POSTsession';
 import PUTsession from './main/routes/PUTsession';
+import GETusers from './main/routes/GETusers';
 import GETuser from './main/routes/GETuser';
 import PUTuser from './main/routes/PUTuser';
 
@@ -29,6 +30,7 @@ app.use(/\/((?!session).)*/, authenticate);
 app.post('/sessions', POSTsession);
 app.put('/sessions', PUTsession);
 
+app.get('/users', GETusers);
 app.get('/users/:phoneNumber', GETuser);
 app.put('/users', PUTuser);
 

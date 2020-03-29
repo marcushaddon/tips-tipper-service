@@ -2,6 +2,7 @@ import { DynamoDB } from 'aws-sdk';
 const { AttributeValue: attr } = require('dynamodb-data-types');
 import config from 'config';
 import TipsUser from '../model/TipsUser';
+import PaginatedResponse from '../model/PaginatedResponse';
 import validate from '../model/validate';
 
 const appConfig = config.get('app') as any;
@@ -25,6 +26,39 @@ export default class TippersRepository {
         const res = await this.db.getItem(params).promise();
 
         return res.Item ? attr.unwrap(res.Item) as TipsUser : undefined;
+    }
+
+    public async getUsers({
+        pageSize = 50,
+        nextScheduledReminderTimeLTE = Infinity,
+        continuationToken
+    }: { pageSize: number, nextScheduledReminderTimeLTE?: number, continuationToken?: string }): Promise<PaginatedResponse<TipsUser>> {
+        let query = false;
+        const params: DynamoDB.QueryInput = {
+            TableName: appConfig.dynamoTable,
+            Limit: pageSize
+        };
+        if (continuationToken) {
+            const esk = { phoneNumber: continuationToken };
+            params.ExclusiveStartKey = attr.wrap(esk)
+        }
+        // if (nextScheduledReminderTimeLTE < Infinity) {
+        //     params.ExpressionAttributeValues = {
+        //         ':v1': {
+        //             N: nextScheduledReminderTimeLTE.toString()
+        //         }
+        //     };
+        //     params.KeyConditionExpression = 'reminderSchedule.nextScheduledTime <= :v1'
+        // }
+
+        // let res;
+        const res = await this.db.scan(params).promise();
+        // let res = await this.db.query(params).promise();
+        
+        return {
+            items: res.Items?.map(item => attr.unwrap(item)),
+            continuationToken: attr.unwrap(res.LastEvaluatedKey).phoneNumber
+        };
     }
 
     public async putUser(user: TipsUser): Promise<TipsUser> {

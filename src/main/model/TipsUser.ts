@@ -12,7 +12,7 @@ type TipsUser = {
     venmo?: string;
     paypal?: string;
     preferredMethod?: 'paypal' | 'venmo';
-    // reminderSchedule?: ReminderSchedule;
+    reminderSchedule?: ReminderSchedule;
     role: 'tipper' | 'recipient' | 'appService';
     nonce?: string;
 };
