@@ -23,6 +23,7 @@ const authenticate = async (req: express.Request, res: express.Response, next: e
         return res.status(401).send({ message: e.message });
     }
 
+    logger.info('Authenticated user', user);
     (req as any).user = user;
     next();
 };

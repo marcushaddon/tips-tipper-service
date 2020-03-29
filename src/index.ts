@@ -5,7 +5,8 @@ import logger from './main/logging/logger';
 import authenticate from './main/auth/authenticate';
 import POSTsession from './main/routes/POSTsession';
 import PUTsession from './main/routes/PUTsession';
-import PUTtipper from './main/routes/PUTtipper';
+import GETuser from './main/routes/GETuser';
+import PUTuser from './main/routes/PUTuser';
 
 const appConfig = config.get('app') as any;
 
@@ -28,7 +29,8 @@ app.use(/\/((?!session).)*/, authenticate);
 app.post('/sessions', POSTsession);
 app.put('/sessions', PUTsession);
 
-app.put('/tippers', PUTtipper);
+app.get('/users/:phoneNumber', GETuser);
+app.put('/users', PUTuser);
 
 app.get('/', (req, res) => { res.send('hello') });
 

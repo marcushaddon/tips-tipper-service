@@ -21,7 +21,7 @@ const PUTsession = async (req: Request, res: Response, next: NextFunction) => {
     }
 
     if (existingUser.nonce !== nonce) {
-        return res.status(401).send({ message: 'Didn\t supply correct nonce' });
+        return res.status(401).send({ message: 'Didn\'t supply correct nonce' });
     }
 
     // TODO: Encode JWT
