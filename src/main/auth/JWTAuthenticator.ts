@@ -47,8 +47,11 @@ export default class JWTAuthenticator {
         await this.refreshSecret();
         const ttl = parseInt(appConfig.jwtTTTL);
         
-        // TODO: Expire token
-        const token = this.jwt.sign({ user }, this._cachedSecret as string, { expiresIn: appConfig.jwtTTL });
+        const token = this.jwt.sign(
+            { user },
+            this._cachedSecret as string,
+            { expiresIn: appConfig.jwtTTL }
+        );
 
         return token;
     }

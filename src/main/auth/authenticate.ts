@@ -20,7 +20,7 @@ const authenticate = async (req: express.Request, res: express.Response, next: e
     } catch (e) {
         // TODO: Send helpful message
         logger.error('Encountered error authenticating user', e);
-        return res.status(401).send('Authentication was expired or improperly encoded');
+        return res.status(401).send({ message: e.message });
     }
 
     (req as any).user = user;

@@ -4,7 +4,8 @@ import config from 'config';
 import logger from './main/logging/logger';
 import authenticate from './main/auth/authenticate';
 import POSTsession from './main/routes/POSTsession';
-import PUTsession from './main/routes/PUTSession';
+import PUTsession from './main/routes/PUTsession';
+import PUTtipper from './main/routes/PUTtipper';
 
 const appConfig = config.get('app') as any;
 
@@ -29,6 +30,8 @@ app.use(/\/((?!session).)*/, authenticate);
 app.post('/session', POSTsession);
 app.put('/session', PUTsession);
 
+app.post('/users', PUTtipper);
+
 app.get('/', (req, res) => { res.send('hello') });
 
 /**
@@ -39,7 +42,4 @@ app.get('/', (req, res) => { res.send('hello') });
  * 4. PUT tipper, tipper and admin
  * 5. DELETE tipper, tipper and admin
  */
-
-
-
 app.listen(appConfig.port, () => logger.info(`Tipper service up and listening on ${appConfig.port}`));
