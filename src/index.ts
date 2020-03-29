@@ -17,20 +17,18 @@ const app = express();
 // ============================
 app.use(bodyParser.json());
 
-
 // ============================
 // GLOBAL 
 // ============================
 app.use(/\/((?!session).)*/, authenticate);
 
-
 // ===========================
 // ROUTES
 // ===========================
-app.post('/session', POSTsession);
-app.put('/session', PUTsession);
+app.post('/sessions', POSTsession);
+app.put('/sessions', PUTsession);
 
-app.post('/users', PUTtipper);
+app.put('/tippers', PUTtipper);
 
 app.get('/', (req, res) => { res.send('hello') });
 
