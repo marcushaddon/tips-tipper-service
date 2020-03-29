@@ -22,7 +22,8 @@ const GETuser = async (req: Request, res: Response, next: NextFunction) => {
     try {
         users = await tippersRepo.getUsers({
             pageSize: parsed_page_size,
-            continuationToken: continuation_token
+            continuationToken: continuation_token,
+            nextScheduledLTE: next_scheduled_lte
         });
     } catch (e) {
         logger.error('Error GETting users', e);

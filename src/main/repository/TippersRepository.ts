@@ -30,9 +30,9 @@ export default class TippersRepository {
 
     public async getUsers({
         pageSize = 50,
-        nextScheduledReminderTimeLTE = Infinity,
+        nextScheduledLTE,
         continuationToken
-    }: { pageSize: number, nextScheduledReminderTimeLTE?: number, continuationToken?: string }): Promise<PaginatedResponse<TipsUser>> {
+    }: { pageSize: number, nextScheduledLTE?: string, continuationToken?: string }): Promise<PaginatedResponse<TipsUser>> {
         let query = false;
         const params: DynamoDB.QueryInput = {
             TableName: appConfig.dynamoTable,
@@ -42,17 +42,22 @@ export default class TippersRepository {
             const esk = { phoneNumber: continuationToken };
             params.ExclusiveStartKey = attr.wrap(esk)
         }
-        // if (nextScheduledReminderTimeLTE < Infinity) {
-        //     params.ExpressionAttributeValues = {
-        //         ':v1': {
-        //             N: nextScheduledReminderTimeLTE.toString()
-        //         }
-        //     };
-        //     params.KeyConditionExpression = 'reminderSchedule.nextScheduledTime <= :v1'
-        // }
+        if (nextScheduledLTE) {
+            params.ExpressionAttributeValues = {
+                ':v1': {
+                    N: nextScheduledLTE
+                }
+            };
+            params.KeyConditionExpression = 'nextScheduledTime <= :v1';
+            query = true;
+        }
 
-        // let res;
-        const res = await this.db.scan(params).promise();
+        let res;
+        if (query) {
+            res = await this.db.query(params).promise();
+        } else {
+            res = await this.db.scan(params).promise();
+        }
         // let res = await this.db.query(params).promise();
         
         return {
