@@ -2,3 +2,4 @@ app:
   service: tips-tipper-service
   dynamoTable: tips-tippers
   region: us-east-2
+  jwtTTL: 1h # 1hr in ms

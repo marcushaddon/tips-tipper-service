@@ -1,6 +1,7 @@
 import { SecretsManager } from 'aws-sdk';
 import jsonwebtoken from 'jsonwebtoken';
 import config from 'config';
+import logger from '../logging/logger';
 import TipsUser from '../model/TipsUser';
 
 const appConfig = config.get('app') as any;
@@ -12,14 +13,8 @@ export default class JWTAuthenticator {
         private secretsManager = new SecretsManager({ region: appConfig.region }),
         private jwt = jsonwebtoken
     ) {
-        if (process.env.NODE_ENV === 'local') {
-            this._local = true;
-            this._cachedSecret = process.env.TIPS_JWT_SECRET
-        } else {
-            this._local = false;
-            this.refreshSecret();
-        }
-        
+        this._local = process.env.NODE_ENV === 'local';
+        this.refreshSecret();
     }
 
     public async authenticate(token: string, refreshed = false): Promise<TipsUser> {
@@ -48,9 +43,26 @@ export default class JWTAuthenticator {
         return user;
     }
 
+    public async sign(user: TipsUser): Promise<string> {
+        await this.refreshSecret();
+        const ttl = parseInt(appConfig.jwtTTTL);
+        
+        // TODO: Expire token
+        const token = this.jwt.sign({ user }, this._cachedSecret as string, { expiresIn: appConfig.jwtTTL });
+
+        return token;
+    }
+
     private async refreshSecret() {
+        if (this._local) {
+            this._cachedSecret = process.env.TIPS_JWT_SECRET;
+            logger.info('Running locally, using JWT secret from env');
+
+            return ;
+        }
+
         const res = await this.secretsManager.getSecretValue({
-            SecretId: 'tips-jwt-secret'
+            SecretId: appConfig.jwtSecretKey
         }).promise();
 
         if (typeof res.SecretString === 'undefined') {
@@ -61,3 +73,5 @@ export default class JWTAuthenticator {
     }
 
 }
+
+export const singleton = new JWTAuthenticator();

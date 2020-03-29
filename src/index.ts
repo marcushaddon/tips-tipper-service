@@ -1,14 +1,33 @@
 import express from 'express';
+import bodyParser from 'body-parser';
 import config from 'config';
 import logger from './main/logging/logger';
 import authenticate from './main/auth/authenticate';
+import POSTsession from './main/routes/POSTsession';
+import PUTsession from './main/routes/PUTSession';
 
 const appConfig = config.get('app') as any;
 
 
 const app = express();
 
-app.use(authenticate);
+// ============================
+// SETUP
+// ============================
+app.use(bodyParser.json());
+
+
+// ============================
+// GLOBAL 
+// ============================
+app.use(/\/((?!session).)*/, authenticate);
+
+
+// ===========================
+// ROUTES
+// ===========================
+app.post('/session', POSTsession);
+app.put('/session', PUTsession);
 
 app.get('/', (req, res) => { res.send('hello') });
 

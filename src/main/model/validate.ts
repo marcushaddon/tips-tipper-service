@@ -21,6 +21,7 @@ const modelFiles = fs.readdirSync(__dirname)
 const program = TJS.getProgramFromFiles(modelFiles, compilerOptions);
 const generator = TJS.buildGenerator(program, settings);
 
+// TODO: figure out why this is validating everything
 const validate = (obj: any, symbol: string): ValidationResult => {
     const schema = generator!.getSchemaForSymbol(symbol);
     const res = vdt(obj, schema as JSONSchema7);

@@ -1,7 +1,6 @@
 import express from 'express';
-import JWTAuthenticator from '../auth/JWTAuthenticator';
-
-const jwtAuthenticator = new JWTAuthenticator();
+import { singleton as jwtAuthenticator } from '../auth/JWTAuthenticator';
+import logger from '../logging/logger';
 
 const authenticate = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const header = req.header('Authentication');
@@ -10,7 +9,7 @@ const authenticate = async (req: express.Request, res: express.Response, next: e
     }
 
     const tokenMatch = header.match(/(?<=Bearer ).+/);
-    console.log(tokenMatch);
+
     if (!tokenMatch) {
         return res.status(401).send('Malformed authentication header');
     }
@@ -20,6 +19,7 @@ const authenticate = async (req: express.Request, res: express.Response, next: e
         user = await jwtAuthenticator.authenticate(tokenMatch[0]);
     } catch (e) {
         // TODO: Send helpful message
+        logger.error('Encountered error authenticating user', e);
         return res.status(401).send('Authentication was expired or improperly encoded');
     }
 

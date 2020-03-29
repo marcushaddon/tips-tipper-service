@@ -54,3 +54,4 @@ export default class TippersRepository {
     }
 }
 
+export const singleton = new TippersRepository();
