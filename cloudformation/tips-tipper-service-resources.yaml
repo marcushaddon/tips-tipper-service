@@ -50,43 +50,10 @@ Resources:
           AttributeName: "phoneNumber"
           AttributeType: "S"
         - 
+          AttributeName: "role"
+          AttributeType: "S"
+        - 
           AttributeName: "nextScheduledTime"
-          AttributeType: "N"
-        - 
-          AttributeName: "role"
-          AttributeType: "S"
-        - 
-          AttributeName: "firstName"
-          AttributeType: "S"
-        - 
-          AttributeName: "lastName"
-          AttributeType: "S"
-        - 
-          AttributeName: "email"
-          AttributeType: "S"
-        - 
-          AttributeName: "role"
-          AttributeType: "S"
-        - 
-          AttributeName: "reminderSchedule"
-          AttributeType: "S"
-        - 
-          AttributeName: "nextScheduledFor"
-          AttributeType: "S"
-        - 
-          AttributeName: "venmo"
-          AttributeType: "S"
-        - 
-          AttributeName: "paypal"
-          AttributeType: "S"
-        - 
-          AttributeName: "tipJarId"
-          AttributeType: "S"
-        - 
-          AttributeName: "lastTipped"
-          AttributeType: "S"
-        - 
-          AttributeName: "lastTippedTime"
           AttributeType: "N"
       KeySchema:
         - 
@@ -109,6 +76,7 @@ Resources:
                 - phoneNumber
                 - firstName
                 - lastName
+                - role
                 - reminderSchedule
                 - nextScheduledFor
               ProjectionType: INCLUDE
@@ -118,3 +86,6 @@ Resources:
   #   Type: AWS::IAM::InstanceProfile
   #   Properties:
   #     Roles:
+  
+
+# [lastName, role, nextScheduledFor, tipJarId, venmo, firstName, phoneNumber, lastTippedTime, reminderSchedule, nextScheduledTime, lastTipped, paypal, email], keys used: [role, phoneNumber, nextScheduledTime]
