@@ -55,6 +55,39 @@ Resources:
         - 
           AttributeName: "role"
           AttributeType: "S"
+        - 
+          AttributeName: "firstName"
+          AttributeType: "S"
+        - 
+          AttributeName: "lastName"
+          AttributeType: "S"
+        - 
+          AttributeName: "email"
+          AttributeType: "S"
+        - 
+          AttributeName: "role"
+          AttributeType: "S"
+        - 
+          AttributeName: "reminderSchedule"
+          AttributeType: "S"
+        - 
+          AttributeName: "nextScheduledFor"
+          AttributeType: "S"
+        - 
+          AttributeName: "venmo"
+          AttributeType: "S"
+        - 
+          AttributeName: "paypal"
+          AttributeType: "S"
+        - 
+          AttributeName: "tipJarId"
+          AttributeType: "S"
+        - 
+          AttributeName: "lastTipped"
+          AttributeType: "S"
+        - 
+          AttributeName: "lastTippedTime"
+          AttributeType: "N"
       KeySchema:
         - 
           AttributeName: "role"
@@ -74,6 +107,10 @@ Resources:
           Projection:
               NonKeyAttributes:
                 - phoneNumber
+                - firstName
+                - lastName
+                - reminderSchedule
+                - nextScheduledFor
               ProjectionType: INCLUDE
       TableName: tips-tippers
       BillingMode: PAY_PER_REQUEST

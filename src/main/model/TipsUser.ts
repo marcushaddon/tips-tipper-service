@@ -1,16 +1,24 @@
 type TipsUser = {
+    // Common fields
     firstName?: string;
     lastName?: string;
-    phoneNumber: string;
-    venmo?: string;
-    paypal?: string;
-    preferredMethod?: 'paypal' | 'venmo';
+    role: 'tipper' | 'recipient' | 'appService';
+
+    // Tipper fields
+    phoneNumber?: string;
     reminderSchedule?: string;
     nextScheduled?: string;
     nextScheduledTime?: number;
     nextScheduledFor?: string;
-    role: 'tipper' | 'recipient' | 'appService';
     nonce?: string;
+
+    // Recipient fields
+    venmo?: string;
+    paypal?: string;
+    preferredMethod?: 'paypal' | 'venmo';
+    tipJarId?: string;
+    lastTipped?: string;
+    lastTippedTime?: number;
 };
 
 export default TipsUser;
