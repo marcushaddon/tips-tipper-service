@@ -79,6 +79,8 @@ Resources:
                 - role
                 - reminderSchedule
                 - nextScheduledFor
+                - nextScheduled
+                - nextScheduledTime
               ProjectionType: INCLUDE
       TableName: tips-tippers
       BillingMode: PAY_PER_REQUEST
