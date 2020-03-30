@@ -70,7 +70,7 @@ export default class TippersRepository {
             const breakdown = valres
                 .errors
                 .map(error => `${error.property} -> ${error.message}`).join('\n');
-            throw new Error('Tips user is invalid.' + breakdown);
+            throw new Error('Tips user is invalid. ' + breakdown);
         }
 
         // TODO: Check text input!
@@ -82,6 +82,46 @@ export default class TippersRepository {
         await this.db.putItem(params).promise();
 
         return user;
+    }
+
+    public async patchUser(userPatch: { [key: string]: any }): Promise<TipsUser> {
+        const valres = validate(userPatch, 'TipsUser');
+        if (!valres.valid) {
+            const breakdown = valres
+                .errors
+                .map(error => `${error.property} -> ${error.message}`).join('\n');
+            throw new Error('Tips user is invalid. ' + breakdown);
+        }
+
+        const fields = Object.keys(userPatch).filter(key => ["phoneNumber", "role"].indexOf(key) === -1);
+        
+        const Key = attr.wrap({ phoneNumber: userPatch.phoneNumber, role: userPatch.role });
+        const ExpressionAttributeNames: { [key: string]: string } = {};
+        const preExpressionAttributeValues: { [key: string]: string } = {};
+        const updateExpressionParts: string[] = [];
+
+        fields.forEach(field => {
+            const name = `#${field}`;
+            const attribute = `:${field}`;
+            ExpressionAttributeNames[name] = field;
+            preExpressionAttributeValues[attribute] = userPatch[field];
+            updateExpressionParts.push(`${name} = ${attribute}`);
+        });
+
+        const ExpressionAttributeValues = attr.wrap(preExpressionAttributeValues);
+        const UpdateExpression = `SET ${updateExpressionParts.join(', ')}`;
+
+        const params: DynamoDB.UpdateItemInput = {
+            ExpressionAttributeNames,
+            ExpressionAttributeValues,
+            UpdateExpression,
+            Key,
+            TableName: appConfig.dynamoTable
+        };
+
+        const res = await this.db.updateItem(params).promise();
+
+        return { role: 'tipper' };
     }
 
     public async deleteUser(phoneNumber: string): Promise<void> {

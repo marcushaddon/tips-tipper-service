@@ -8,6 +8,7 @@ import PUTsession from './main/routes/PUTsession';
 import GETusers from './main/routes/GETusers';
 import GETuser from './main/routes/GETuser';
 import PUTuser from './main/routes/PUTuser';
+import PATCHuser from './main/routes/PATCHuser';
 
 const appConfig = config.get('app') as any;
 
@@ -33,6 +34,7 @@ app.put('/sessions', PUTsession);
 app.get('/users', GETusers);
 app.get('/users/:phoneNumber', GETuser);
 app.put('/users', PUTuser);
+app.patch('/users', PATCHuser);
 
 app.get('/', (req, res) => { res.send('hello') });
 

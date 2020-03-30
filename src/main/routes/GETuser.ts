@@ -28,7 +28,7 @@ const GETuser = async (req: Request, res: Response, next: NextFunction) => {
 
     let user: TipsUser | undefined;
     try {
-        user = await tippersRepo.getUser(phoneNumber, reqUser.role);
+        user = await tippersRepo.getUser(phoneNumber, role);
     } catch (e) {
         logger.error('Unable to GET user', e);
     }
