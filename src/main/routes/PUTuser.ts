@@ -11,8 +11,12 @@ const PUTuser = async (req: Request, res: Response, next: NextFunction) => {
 
     if (reqUser.role === 'appService') {
         allowed = true;
-    } else if (reqUser.phoneNumber !== pendingUser.phoneNumber){
+    } else if (reqUser.phoneNumber !== pendingUser.phoneNumber) {
         message = 'Users may only update their own phone numbers';
+    } else if (["tipper", "recipient"].indexOf(pendingUser.role) < 0) {
+        message = `Not authorized to create role ${pendingUser.role}`;
+    } else if (reqUser.role !== pendingUser.role) {
+        message = `Not authorized to update role`;
     } else {
         allowed = true;
     }

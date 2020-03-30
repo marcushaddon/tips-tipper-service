@@ -13,11 +13,14 @@ export default class TippersRepository {
         this._tableName = appConfig.get('dynamoTable');
     }
 
-    public async getUser(phoneNumber: string): Promise<TipsUser | undefined> {
+    public async getUser(phoneNumber: string, role: string): Promise<TipsUser | undefined> {
         const params = {
             Key: {
                 'phoneNumber': {
                     S: phoneNumber
+                },
+                'role': {
+                    S: role
                 }
             },
             TableName: this._tableName
@@ -30,35 +33,30 @@ export default class TippersRepository {
 
     public async getUsers({
         pageSize = 50,
+        role,
         nextScheduledLTE,
         continuationToken
-    }: { pageSize: number, nextScheduledLTE?: string, continuationToken?: string }): Promise<PaginatedResponse<TipsUser>> {
-        let query = false;
+    }: { pageSize: number, role: string, nextScheduledLTE: string, continuationToken?: string }): Promise<PaginatedResponse<TipsUser>> {
         const params: DynamoDB.QueryInput = {
             TableName: appConfig.dynamoTable,
-            Limit: pageSize
+            Limit: pageSize,
+            KeyConditionExpression: '#role = :role AND #nextScheduledTime <= :nst',
+            ExpressionAttributeValues: {
+                ':role': { S: role },
+                ':nst': { N: nextScheduledLTE},
+            },
+            ExpressionAttributeNames: {
+                '#nextScheduledTime': 'nextScheduledTime',
+                '#role': 'role',
+            },
+            IndexName: 'next-scheduled-time-index'
         };
         if (continuationToken) {
             const esk = { phoneNumber: continuationToken };
             params.ExclusiveStartKey = attr.wrap(esk)
         }
-        if (nextScheduledLTE) {
-            params.ExpressionAttributeValues = {
-                ':v1': {
-                    N: nextScheduledLTE
-                }
-            };
-            params.KeyConditionExpression = 'nextScheduledTime <= :v1';
-            query = true;
-        }
 
-        let res;
-        if (query) {
-            res = await this.db.query(params).promise();
-        } else {
-            res = await this.db.scan(params).promise();
-        }
-        // let res = await this.db.query(params).promise();
+        let res = await this.db.query(params).promise();
         
         return {
             items: res.Items?.map(item => attr.unwrap(item)),
@@ -69,7 +67,10 @@ export default class TippersRepository {
     public async putUser(user: TipsUser): Promise<TipsUser> {
         const valres = validate(user, 'TipsUser');
         if (!valres.valid) {
-            throw new Error('Tips user is invalid.' + valres.errors.join('\n'));
+            const breakdown = valres
+                .errors
+                .map(error => `${error.property} -> ${error.message}`).join('\n');
+            throw new Error('Tips user is invalid.' + breakdown);
         }
 
         // TODO: Check text input!

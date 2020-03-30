@@ -1,8 +1,3 @@
-type ReminderSchedule = {
-    cron: string;
-    for: string;
-};
-
 type TipsUser = {
     firstName?: string;
     lastName?: string;
@@ -10,7 +5,7 @@ type TipsUser = {
     venmo?: string;
     paypal?: string;
     preferredMethod?: 'paypal' | 'venmo';
-    reminderSchedule?: ReminderSchedule;
+    reminderSchedule?: string;
     nextScheduled?: string;
     nextScheduledTime?: number;
     nextScheduledFor?: string;

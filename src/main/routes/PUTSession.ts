@@ -4,8 +4,11 @@ import { singleton as jwtAuthenticator } from '../auth/JWTAuthenticator';
 import TipsUser from '../model/TipsUser';
 
 const PUTsession = async (req: Request, res: Response, next: NextFunction) => {
-    const phoneNumber = req.body.phoneNumber;
-    const nonce = req.body.nonce;
+    const {
+        phoneNumber,
+        role,
+        nonce
+    } = req.body;
 
     if (!phoneNumber) {
         return res.status(400).send({ message: 'Missing required field phonenumber' });
@@ -13,8 +16,11 @@ const PUTsession = async (req: Request, res: Response, next: NextFunction) => {
     if (!nonce) {
         return res.status(400).send({ message: 'Missing required field nonce' });
     }
+    if (['tipper', 'recipient'].indexOf(role) < 0) {
+        return res.status(400).send({ message: 'Role must be one of tipper | recipient' });
+    }
 
-    const existingUser = await tippersRepo.getUser(phoneNumber);
+    const existingUser = await tippersRepo.getUser(phoneNumber, role);
 
     if (!existingUser || !existingUser.nonce) {
         return res.status(401).send({ message: 'No pending session found for user' });

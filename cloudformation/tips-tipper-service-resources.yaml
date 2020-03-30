@@ -49,10 +49,32 @@ Resources:
         -
           AttributeName: "phoneNumber"
           AttributeType: "S"
+        - 
+          AttributeName: "nextScheduledTime"
+          AttributeType: "N"
+        - 
+          AttributeName: "role"
+          AttributeType: "S"
       KeySchema:
         - 
-          AttributeName: "phoneNumber"
+          AttributeName: "role"
           KeyType: "HASH"
+        - 
+          AttributeName: "phoneNumber"
+          KeyType: "RANGE"
+      GlobalSecondaryIndexes:
+        - IndexName: next-scheduled-time-index
+          KeySchema:
+            -
+              AttributeName: "role"
+              KeyType: HASH
+            - 
+              AttributeName: "nextScheduledTime"
+              KeyType: RANGE
+          Projection:
+              NonKeyAttributes:
+                - phoneNumber
+              ProjectionType: INCLUDE
       TableName: tips-tippers
       BillingMode: PAY_PER_REQUEST
   # TipsTippersInstanceProfile:
