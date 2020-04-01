@@ -31,18 +31,17 @@ export default class TippersRepository {
         return res.Item ? attr.unwrap(res.Item) as TipsUser : undefined;
     }
 
-    public async getUsers({
+    public async getTippers({
         pageSize = 50,
-        role,
         nextScheduledLTE,
         continuationToken
-    }: { pageSize: number, role: string, nextScheduledLTE: string, continuationToken?: string }): Promise<PaginatedResponse<TipsUser>> {
+    }: { pageSize: number, nextScheduledLTE: string, continuationToken?: string }): Promise<PaginatedResponse<TipsUser>> {
         const params: DynamoDB.QueryInput = {
             TableName: appConfig.dynamoTable,
             Limit: pageSize,
             KeyConditionExpression: '#role = :role AND #nextScheduledTime <= :nst',
             ExpressionAttributeValues: {
-                ':role': { S: role },
+                ':role': { S: 'tipper' },
                 ':nst': { N: nextScheduledLTE},
             },
             ExpressionAttributeNames: {

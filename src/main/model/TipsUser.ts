@@ -1,3 +1,9 @@
+type Schedule = {
+    cron: string,
+    for: string,
+    tipJarId: string
+};
+
 type TipsUser = {
     // Common fields
     firstName?: string;
@@ -6,19 +12,12 @@ type TipsUser = {
 
     // Tipper fields
     phoneNumber?: string;
-    reminderSchedule?: string;
+    schedules?: Schedule[];
     nextScheduled?: string;
     nextScheduledTime?: number;
+    nextScheduledTipJarId?: string;
     nextScheduledFor?: string;
     nonce?: string;
-
-    // Recipient fields
-    venmo?: string;
-    paypal?: string;
-    preferredMethod?: 'paypal' | 'venmo';
-    tipJarId?: string;
-    lastTipped?: string;
-    lastTippedTime?: number;
 };
 
 export default TipsUser;

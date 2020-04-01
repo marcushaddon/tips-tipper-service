@@ -4,6 +4,7 @@ import TipsUser from '../model/TipsUser';
 import logger from '../logging/logger';
 
 const POSTsession = async (req: Request, res: Response, next: NextFunction) => {
+    console.log('Creating a session');
     let message = 'Unable to create session';
     const { phoneNumber, role } = req.body;
 
@@ -18,7 +19,9 @@ const POSTsession = async (req: Request, res: Response, next: NextFunction) => {
     // TODO: Make sure nonce is always six digits
     const nonce = Math.floor(Math.random() * 1000000 + 999999).toString();
     
+    console.log('Maybe getting user');
     const existingUser = await tippersRepo.getUser(phoneNumber, role);
+    console.log('Maybe got user');
 
     let userToPut: TipsUser;
     if (!existingUser) {

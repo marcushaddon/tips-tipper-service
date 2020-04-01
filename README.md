@@ -17,6 +17,7 @@ x build GET, PATCH, POST, DELETE routes
 - change phoneNumber field to just be id (it will be the phone nymber for tippers and guid for recipients)
 x create PATCH update users route
 x create batch PUT and PATCH users methods
+- actually text user during signup / login
 - create get recipients by last tipped (need second gsi)
 - fix response type for auth errors (json not plaintext)
 - log verbose for performance monitoring

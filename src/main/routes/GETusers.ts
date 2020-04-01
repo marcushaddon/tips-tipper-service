@@ -27,13 +27,14 @@ const GETusers = async (req: Request, res: Response, next: NextFunction) => {
     }
     
     let users: PaginatedResponse<TipsUser>;
+    const params = {
+        pageSize: parsed_page_size,
+        continuationToken: continuation_token,
+        nextScheduledLTE: next_scheduled_lte,
+    };
+    // TODO: maybe call getRecipients
     try {
-        users = await tippersRepo.getUsers({
-            pageSize: parsed_page_size,
-            continuationToken: continuation_token,
-            nextScheduledLTE: next_scheduled_lte,
-            role
-        });
+        users = await tippersRepo.getTippers(params);
     } catch (e) {
         logger.error('Error GETting users', e);
         return res.status(500).send({ message: 'Internal error' });

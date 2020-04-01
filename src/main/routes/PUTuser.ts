@@ -6,9 +6,11 @@ import logger from '../logging/logger';
 const PUTuser = async (req: Request, res: Response, next: NextFunction) => {
     const reqUser: TipsUser = (req as any).user;
     const pendingUser: TipsUser = req.body;
+    logger.verbose('PUT user request', { reqUser, pendingUser });
     let allowed = false;
     let message: string = 'Unable to create user';
 
+    // TODO: HOLY SHIT USERS CAN SIGN UP AS APPSERVER
     if (reqUser.role === 'appService') {
         allowed = true;
     } else if (reqUser.phoneNumber !== pendingUser.phoneNumber) {
