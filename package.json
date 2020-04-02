@@ -4,10 +4,11 @@
   "description": "Manages tippers",
   "main": "dist/index.js",
   "scripts": {
-    "run-local": "export NODE_ENV=local TIPS_JWT_SECRET=local-secret && ts-node src/index.ts",
+    "run-local": "export NODE_ENV=local TIPS_JWT_SECRET=local-secret && npm run build-schema && ts-node src/index.ts",
     "run-test": "export NODE_ENV=test && node dist/index.js",
     "run-prod": "export NODE_ENV=prod && node dist/index.js",
-    "build": "tsc --outDir dist",
+    "build": "tsc --outDir dist && npm run build-schema",
+    "build-schema": "./node_modules/.bin/typescript-json-schema src/main/model/TipsUser.ts TipsUser > dist/src/main/model/TipsUser.schema.json && cp dist/src/main/model/TipsUser.schema.json src/main/model && echo \"TODO: improve this\"",
     "test": "export NODE_ENV=test && jest src --coverage"
   },
   "repository": {
