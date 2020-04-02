@@ -1,3 +1,0 @@
-app:
-  port: 3000
-  jwtSecretKey: tips-local-jwt-secret

@@ -4,7 +4,7 @@
   "description": "Manages tippers",
   "main": "dist/index.js",
   "scripts": {
-    "run-local": "export NODE_ENV=local TIPS_JWT_SECRET=local-secret AWS_PROFILE=marcus && npm run build && node dist/index.js",
+    "run-local": "TIPS_JWT_SECRET=local-secret AWS_PROFILE=marcus && npm run build && node dist/index.js",
     "run-test": "export NODE_ENV=test && node dist/index.js",
     "run-prod": "export NODE_ENV=prod && node dist/index.js",
     "build": "tsc --rootDir src --outDir dist && npm run build-schema",

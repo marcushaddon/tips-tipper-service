@@ -72,6 +72,7 @@ export default class JWTAuthenticator {
             throw new Error('Unable to refresh shared JWT secret');
         }
 
+        // TODO: I guess we need to parse?
         this._cachedSecret = res.SecretString;
     }
 
