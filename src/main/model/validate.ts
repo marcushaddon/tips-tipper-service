@@ -11,7 +11,6 @@ fs
         schemas[name] = require(path.join(__dirname, f));
     })
 
-console.log(schemas);
 // TODO: figure out why this is validating everything
 
 const validate = (instance: any, schema: string) => {

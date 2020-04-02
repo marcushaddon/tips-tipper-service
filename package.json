@@ -8,7 +8,7 @@
     "run-test": "export NODE_ENV=test && node dist/index.js",
     "run-prod": "export NODE_ENV=prod && node dist/index.js",
     "build": "tsc --rootDir src --outDir dist && npm run build-schema",
-    "build-schema": "./node_modules/.bin/typescript-json-schema src/main/model/TipsUser.ts TipsUser > dist/src/main/model/TipsUser.schema.json && cp dist/src/main/model/TipsUser.schema.json src/main/model && echo \"TODO: improve this\"",
+    "build-schema": "./node_modules/.bin/typescript-json-schema src/main/model/TipsUser.ts TipsUser > dist/main/model/TipsUser.schema.json && cp dist/main/model/TipsUser.schema.json src/main/model && echo \"TODO: improve this\"",
     "test": "export NODE_ENV=test && jest src --coverage"
   },
   "repository": {
