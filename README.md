@@ -14,11 +14,16 @@ x Need to have global secondary index
 x Update TipperRepo methods for new DB shit
 x BAD: Can only fetch tippers due to required next_scheduled_lte
 x build GET, PATCH, POST, DELETE routes
-- change phoneNumber field to just be id (it will be the phone nymber for tippers and guid for recipients)
+xx change phoneNumber field to just be id (it will be the phone nymber for tippers and guid for recipients)
 x create PATCH update users route
 x create batch PUT and PATCH users methods
 - actually text user during signup / login
-- create get recipients by last tipped (need second gsi)
+xx create get recipients by last tipped (need second gsi)
 - fix response type for auth errors (json not plaintext)
 - log verbose for performance monitoring
 - fix (req as any).thing = stuff
+
+Deploying TODO:
+- route higher port to port 80
+- run with pm2
+- probably need to add CW subscription filter

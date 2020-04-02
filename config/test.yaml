@@ -1,3 +1,2 @@
 app:
-  port: 80
   jwtSecretKey: tips-test-jwt-secret
