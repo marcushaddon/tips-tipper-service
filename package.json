@@ -4,7 +4,7 @@
   "description": "Manages tippers",
   "main": "dist/index.js",
   "scripts": {
-    "run-local": "TIPS_JWT_SECRET=local-secret AWS_PROFILE=marcus && npm run build && node dist/index.js",
+    "run-local": "TIPS_JWT_SECRET=local-secret AWS_PROFILE=marcus export NODE_ENV=develop && npm run build && node dist/index.js",
     "run-test": "export NODE_ENV=test && node dist/index.js",
     "run-prod": "export NODE_ENV=prod && node dist/index.js",
     "build": "tsc --rootDir src --outDir dist && npm run build-schema",
@@ -36,6 +36,7 @@
     "aws-sdk": "^2.613.0",
     "body-parser": "^1.19.0",
     "config": "^3.3.0",
+    "cron-parser": "^2.13.0",
     "dynamodb-data-types": "^3.0.1",
     "express": "^4.17.1",
     "jsonschema": "^1.2.5",

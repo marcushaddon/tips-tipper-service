@@ -13,7 +13,7 @@ export default class JWTAuthenticator {
         private secretsManager = new SecretsManager({ region: appConfig.region }),
         private jwt = jsonwebtoken
     ) {
-        this._local = process.env.NODE_ENV === 'local';
+        this._local = process.env.NODE_ENV === 'develop';
         this.refreshSecret();
     }
 
@@ -71,6 +71,7 @@ export default class JWTAuthenticator {
         if (typeof res.SecretString === 'undefined') {
             throw new Error('Unable to refresh shared JWT secret');
         }
+        console.log(res.SecretString);
 
         // TODO: I guess we need to parse?
         this._cachedSecret = res.SecretString;

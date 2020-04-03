@@ -80,8 +80,7 @@ Resources:
                 - firstName
                 - lastName
                 - role
-                - reminderSchedule
-                - nextScheduledFor
+                - schedules
                 - nextScheduled
                 - nextScheduledTime
               ProjectionType: INCLUDE

@@ -22,8 +22,11 @@ xx create get recipients by last tipped (need second gsi)
 - fix response type for auth errors (json not plaintext)
 - log verbose for performance monitoring
 - fix (req as any).thing = stuff
+- tighten up logging!
+- 
 
 Deploying TODO:
-- route higher port to port 80
+x route higher port to port 80
+- update dynamo index to forward schedules
 - run with pm2
 - probably need to add CW subscription filter

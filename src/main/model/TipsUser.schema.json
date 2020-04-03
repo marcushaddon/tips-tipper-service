@@ -1,6 +1,9 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "properties": {
+        "dirty": {
+            "type": "boolean"
+        },
         "firstName": {
             "type": "string"
         },
@@ -10,14 +13,8 @@
         "nextScheduled": {
             "type": "string"
         },
-        "nextScheduledFor": {
-            "type": "string"
-        },
         "nextScheduledTime": {
             "type": "number"
-        },
-        "nextScheduledTipJarId": {
-            "type": "string"
         },
         "nonce": {
             "type": "string"
@@ -40,6 +37,9 @@
                         "type": "string"
                     },
                     "for": {
+                        "type": "string"
+                    },
+                    "timezone": {
                         "type": "string"
                     },
                     "tipJarId": {

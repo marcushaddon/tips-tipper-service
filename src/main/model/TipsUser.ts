@@ -1,7 +1,10 @@
+import { BatchAssociateApprovalRuleTemplateWithRepositoriesInput } from "aws-sdk/clients/codecommit";
+
 type Schedule = {
-    cron: string,
-    for: string,
-    tipJarId: string
+    cron: string;
+    for: string;
+    tipJarId: string;
+    timezone: string;
 };
 
 type TipsUser = {
@@ -15,9 +18,8 @@ type TipsUser = {
     schedules?: Schedule[];
     nextScheduled?: string;
     nextScheduledTime?: number;
-    nextScheduledTipJarId?: string;
-    nextScheduledFor?: string;
     nonce?: string;
+    dirty?: boolean;
 };
 
 export default TipsUser;

@@ -1,9 +1,11 @@
 import { DynamoDB } from 'aws-sdk';
 const { AttributeValue: attr } = require('dynamodb-data-types');
+import cronparser from 'cron-parser';
 import config from 'config';
 import TipsUser from '../model/TipsUser';
 import PaginatedResponse from '../model/PaginatedResponse';
 import validate from '../model/validate';
+import logger from '../logging/logger';
 
 const appConfig = config.get('app') as any;
 
@@ -92,7 +94,15 @@ export default class TippersRepository {
             throw new Error('Tips user is invalid. ' + breakdown);
         }
 
-        const fields = Object.keys(userPatch).filter(key => ["phoneNumber", "role"].indexOf(key) === -1);
+        if (userPatch.dirty) {
+            logger.info('Updating user schedule', { userPatch });
+            userPatch = this.updateSchedule(userPatch as TipsUser);
+            logger.info('Updated user schedule', { userPatch });
+        }
+
+        const fields = Object.keys(userPatch)
+            .filter(key => ["phoneNumber", "role"]
+            .indexOf(key) === -1);
         
         const Key = attr.wrap({ phoneNumber: userPatch.phoneNumber, role: userPatch.role });
         const ExpressionAttributeNames: { [key: string]: string } = {};
@@ -130,6 +140,25 @@ export default class TippersRepository {
         };
 
         await this.db.deleteItem(params).promise();
+    }
+
+    private updateSchedule(user: TipsUser): TipsUser {
+        if (!user.schedules) return user;
+        let nextTime = Infinity;
+        for (let schedule of user.schedules) {
+            const interval = cronparser.parseExpression(schedule.cron, {
+                tz: schedule.timezone
+            });
+            const time = interval.next().getTime();
+            if (time < nextTime) {
+                nextTime = time;
+            }
+        }
+        
+        const nextScheduled = new Date(nextTime).toLocaleString('en-us', { timeZone: 'America/Los_Angeles' });
+        const output = { ...user, nextScheduledTime: nextTime, nextScheduled, dirty: false };
+
+        return output;
     }
 }
 
