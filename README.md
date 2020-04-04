@@ -17,16 +17,16 @@ x build GET, PATCH, POST, DELETE routes
 xx change phoneNumber field to just be id (it will be the phone nymber for tippers and guid for recipients)
 x create PATCH update users route
 x create batch PUT and PATCH users methods
-- actually text user during signup / login
+-- actually text user during signup / login
 xx create get recipients by last tipped (need second gsi)
 - fix response type for auth errors (json not plaintext)
 - log verbose for performance monitoring
 - fix (req as any).thing = stuff
 - tighten up logging!
-- 
+- calculate schedule for dirty users in PUT
 
 Deploying TODO:
 x route higher port to port 80
-- update dynamo index to forward schedules
-- run with pm2
+-- update dynamo index to forward schedules
+x run with pm2
 - probably need to add CW subscription filter

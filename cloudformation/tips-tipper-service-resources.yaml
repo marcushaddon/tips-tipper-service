@@ -55,9 +55,6 @@ Resources:
         - 
           AttributeName: "nextScheduledTime"
           AttributeType: "N"
-        - 
-          AttributeName: "lastTippedTime"
-          AttributeType: "N"
       KeySchema:
         - 
           AttributeName: "role"
@@ -83,25 +80,6 @@ Resources:
                 - schedules
                 - nextScheduled
                 - nextScheduledTime
-              ProjectionType: INCLUDE
-        - IndexName: last-tipped-time-index
-          KeySchema:
-            -
-              AttributeName: "role"
-              KeyType: HASH
-            - 
-              AttributeName: "lastTippedTime"
-              KeyType: RANGE
-          Projection:
-              NonKeyAttributes:
-                - phoneNumber
-                - firstName
-                - lastName
-                - role
-                - paypal
-                - venmo
-                - preferredMethod
-                - meta
               ProjectionType: INCLUDE
       TableName: tips-tippers
       BillingMode: PAY_PER_REQUEST
