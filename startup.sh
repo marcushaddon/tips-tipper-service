@@ -5,7 +5,7 @@ apt-get install nodejs
 curl -L https://npmjs.org/install.sh | sh
 
 curl https://s3.amazonaws.com/aws-cloudwatch/downloads/latest/awslogs-agent-setup.py -O
-sudo python ./awslogs-agent-setup.py --region us-east-2
+sudo python ./awslogs-agent-setup.py --region us-east-2 #  --only-generate-config
 
 srcPortNumber=80
 dstPortNumber=3000

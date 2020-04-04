@@ -29,4 +29,4 @@ Deploying TODO:
 x route higher port to port 80
 -- update dynamo index to forward schedules
 x run with pm2
-- probably need to add CW subscription filter
+- need to coordinate pm2 logs with CF daemon config
