@@ -150,6 +150,8 @@ export default class TippersRepository {
                 tz: schedule.timezone
             });
             const time = interval.next().getTime();
+            schedule.nextScheduledTime = time;
+            logger.info('NEXT SCHEDULE TIME', schedule);
             if (time < nextTime) {
                 nextTime = time;
             }

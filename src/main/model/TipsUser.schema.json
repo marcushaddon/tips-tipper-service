@@ -39,6 +39,9 @@
                     "for": {
                         "type": "string"
                     },
+                    "nextScheduledTime": {
+                        "type": "number"
+                    },
                     "timezone": {
                         "type": "string"
                     },

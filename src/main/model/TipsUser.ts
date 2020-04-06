@@ -5,6 +5,7 @@ type Schedule = {
     for: string;
     tipJarId: string;
     timezone: string;
+    nextScheduledTime: number;
 };
 
 type TipsUser = {
