@@ -19,7 +19,7 @@
             "protocol": "inspector",
             "env": {
                 "TIPS_JWT_SECRET": "local-secret",
-                "NODE_ENV": "develop"
+                "NODE_ENV": "test"
             }
         }
     ]
