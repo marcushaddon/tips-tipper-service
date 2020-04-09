@@ -151,7 +151,7 @@ export default class TippersRepository {
             });
             const time = interval.next().getTime();
             schedule.nextScheduledTime = time;
-            logger.info('NEXT SCHEDULE TIME', schedule);
+
             if (time < nextTime) {
                 nextTime = time;
             }

@@ -4,9 +4,9 @@
   "description": "Manages tippers",
   "main": "dist/index.js",
   "scripts": {
-    "run-local": "TIPS_JWT_SECRET=local-secret AWS_PROFILE=marcus export NODE_ENV=develop && npm run build && node dist/index.js",
-    "run-test": "export NODE_ENV=test && pm2 start dist/index.js",
-    "run-prod": "export NODE_ENV=prod && node dist/index.js",
+    "run-local": "export NODE_ENV=develop TIPS_JWT_SECRET=local-secret AWS_PROFILE=marcus && npm run build && node dist/index.js",
+    "run-test": "export NODE_ENV=test AWS_PROFILE=default && pm2 start dist/index.js",
+    "run-prod": "export NODE_ENV=prod AWS_PROFILE=default && pm2 start dist/index.js",
     "build": "tsc --rootDir src --outDir dist && npm run build-schema",
     "build-schema": "./node_modules/.bin/typescript-json-schema src/main/model/TipsUser.ts TipsUser > dist/main/model/TipsUser.schema.json && cp dist/main/model/TipsUser.schema.json src/main/model && echo \"TODO: improve this\"",
     "test": "export NODE_ENV=test && jest src --coverage"
