@@ -101,8 +101,10 @@ export default class TippersRepository {
         }
 
         const fields = Object.keys(userPatch)
-            .filter(key => ["phoneNumber", "role"]
-            .indexOf(key) === -1);
+            .filter(key => {
+                return ["phoneNumber", "role"].indexOf(key) === -1 &&
+                userPatch[key] != ""
+            });
         
         const Key = attr.wrap({ phoneNumber: userPatch.phoneNumber, role: userPatch.role });
         const ExpressionAttributeNames: { [key: string]: string } = {};
@@ -127,6 +129,8 @@ export default class TippersRepository {
             Key,
             TableName: appConfig.dynamoTable
         };
+
+        console.log(params);
 
         const res = await this.db.updateItem(params).promise();
 

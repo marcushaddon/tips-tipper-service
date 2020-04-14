@@ -1,3 +1,9 @@
+Parameters:
+  Environment:
+    Description: The deployment environment 
+    Type: String
+    Default: test
+
 Resources:
   EC2Instance: 
     Type: AWS::EC2::Instance
@@ -7,6 +13,13 @@ Resources:
       KeyName: tips
       SecurityGroups:
         - !Ref SecurityGroup
+  ElasticIp:
+    Type: AWS::EC2::EIP
+  IPAssociation:
+    Type: AWS::EC2::EIPAssociation
+    Properties:
+      InstanceId: !Ref EC2Instance
+      EIP: !Ref ElasticIp
   SecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:

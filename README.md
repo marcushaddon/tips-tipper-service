@@ -30,3 +30,4 @@ x route higher port to port 80
 -- update dynamo index to forward schedules
 x run with pm2
 - need to coordinate pm2 logs with CF daemon config
+- URGENT: recursively filter out empty strings from objects before PUTting or PATCHing
