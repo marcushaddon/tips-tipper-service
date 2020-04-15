@@ -42,8 +42,10 @@ app.get('/', (req, res) => { res.send('hello') });
 
 let final;
 if (process.env.NODE_ENV === 'develop') {
+    console.log('Develop env detected, serving over http');
     final = app;
 } else {
+    console.log('Test/Prod env detected serving over https');
     const creds = {
         ca: fs.readFileSync('/etc/letsencrypt/letsencrypt/live/tipsbot.us/chain.pem'),
         key: fs.readFileSync('/etc/letsencrypt/letsencrypt/live/tipsbot.us/privkey.pem'),
