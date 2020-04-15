@@ -47,9 +47,9 @@ if (process.env.NODE_ENV === 'develop') {
 } else {
     console.log('Test/Prod env detected serving over https');
     const creds = {
-        ca: fs.readFileSync('/etc/letsencrypt/letsencrypt/live/tipsbot.us/chain.pem'),
-        key: fs.readFileSync('/etc/letsencrypt/letsencrypt/live/tipsbot.us/privkey.pem'),
-        cert: fs.readFileSync('/etc/letsencrypt/letsencrypt/live/tipsbot.us/cert.pem')
+        ca: fs.readFileSync('/etc/letsencrypt/live/tipsbot.us/chain.pem'),
+        key: fs.readFileSync('/etc/letsencrypt/live/tipsbot.us/privkey.pem'),
+        cert: fs.readFileSync('/etc/letsencrypt/live/tipsbot.us/cert.pem')
     };
     final = https.createServer(creds, app);
 }
