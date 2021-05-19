@@ -1,0 +1,7 @@
+app:
+  service: tips-tipper-service
+  port: 3000
+  jwtSecretKey: tips-local-jwt-secret
+  dynamoTable: tips-tippers
+  region: us-east-2
+  jwtTTL: 1h # 1hr in ms

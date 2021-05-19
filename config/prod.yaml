@@ -1,0 +1,2 @@
+app:
+  jwtSecretKey: tips-prod-jwt-secret

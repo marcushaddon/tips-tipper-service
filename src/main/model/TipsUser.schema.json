@@ -1,0 +1,59 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "properties": {
+        "dirty": {
+            "type": "boolean"
+        },
+        "firstName": {
+            "type": "string"
+        },
+        "lastName": {
+            "type": "string"
+        },
+        "nextScheduled": {
+            "type": "string"
+        },
+        "nextScheduledTime": {
+            "type": "number"
+        },
+        "nonce": {
+            "type": "string"
+        },
+        "phoneNumber": {
+            "type": "string"
+        },
+        "role": {
+            "enum": [
+                "appService",
+                "recipient",
+                "tipper"
+            ],
+            "type": "string"
+        },
+        "schedules": {
+            "items": {
+                "properties": {
+                    "cron": {
+                        "type": "string"
+                    },
+                    "for": {
+                        "type": "string"
+                    },
+                    "nextScheduledTime": {
+                        "type": "number"
+                    },
+                    "timezone": {
+                        "type": "string"
+                    },
+                    "tipJarId": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "type": "array"
+        }
+    },
+    "type": "object"
+}
+

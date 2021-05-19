@@ -1,0 +1,2 @@
+app:
+  jwtSecretKey: tips-test-jwt-secret

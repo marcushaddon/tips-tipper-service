@@ -1,0 +1,109 @@
+Parameters:
+  Environment:
+    Description: The deployment environment 
+    Type: String
+    Default: test
+
+Resources:
+  EC2Instance: 
+    Type: AWS::EC2::Instance
+    Properties: 
+      InstanceType: t2.micro
+      ImageId: ami-0fc20dd1da406780b # NOTE: only good for us-east-2
+      KeyName: tips
+      SecurityGroups:
+        - !Ref SecurityGroup
+  ElasticIp:
+    Type: AWS::EC2::EIP
+  IPAssociation:
+    Type: AWS::EC2::EIPAssociation
+    Properties:
+      InstanceId: !Ref EC2Instance
+      EIP: !Ref ElasticIp
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security group for tippers service
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: '80'
+        ToPort: '80'
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: '22'
+        ToPort: '22'
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: '443'
+        ToPort: '443'
+        CidrIp: 0.0.0.0/0
+  TipsTipperServiceRole:
+    Type: AWS::IAM::Role
+    Properties: 
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+              - ec2.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Description: Role allowing tippers service to talk to Dynamo, outbound HTTP
+      Policies: 
+        - PolicyName: dynamo
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: '*'
+                Resource: !Sub arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table:tips-tippers*
+      RoleName: tips.tippers
+  Table:
+    Type: AWS::DynamoDB::Table
+    Properties: 
+      AttributeDefinitions: 
+        -
+          AttributeName: "phoneNumber"
+          AttributeType: "S"
+        - 
+          AttributeName: "role"
+          AttributeType: "S"
+        - 
+          AttributeName: "nextScheduledTime"
+          AttributeType: "N"
+      KeySchema:
+        - 
+          AttributeName: "role"
+          KeyType: "HASH"
+        - 
+          AttributeName: "phoneNumber"
+          KeyType: "RANGE"
+      GlobalSecondaryIndexes:
+        - IndexName: next-scheduled-time-index
+          KeySchema:
+            -
+              AttributeName: "role"
+              KeyType: HASH
+            - 
+              AttributeName: "nextScheduledTime"
+              KeyType: RANGE
+          Projection:
+              NonKeyAttributes:
+                - phoneNumber
+                - firstName
+                - lastName
+                - role
+                - schedules
+                - nextScheduled
+                - nextScheduledTime
+              ProjectionType: INCLUDE
+      TableName: tips-tippers
+      BillingMode: PAY_PER_REQUEST
+  # TipsTippersInstanceProfile:
+  #   Type: AWS::IAM::InstanceProfile
+  #   Properties:
+  #     Roles:
+  
+
+# [lastName, role, nextScheduledFor, tipJarId, venmo, firstName, phoneNumber, lastTippedTime, reminderSchedule, nextScheduledTime, lastTipped, paypal, email], keys used: [role, phoneNumber, nextScheduledTime]
